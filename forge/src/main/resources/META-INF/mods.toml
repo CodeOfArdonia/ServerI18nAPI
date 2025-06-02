@@ -1,0 +1,28 @@
+modLoader = "javafml"
+loaderVersion = "[47,)"
+issueTrackerURL = "https://github.com/CodeOfArdonia/ServerI18nAPI/issues"
+license = "MIT"
+
+[[mods]]
+modId = "server_i18n_api"
+version = "${version}"
+displayName = "Server I18n API"
+authors = "IAFEnvoy"
+description = '''
+I18n implementation on server side only.
+'''
+logoFile = "logo.png"
+
+[[dependencies.server_i18n_api]]
+modId = "forge"
+mandatory = true
+versionRange = "[47,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.server_i18n_api]]
+modId = "minecraft"
+mandatory = true
+versionRange = "[1.20.1,1.20.5)"
+ordering = "NONE"
+side = "BOTH"

@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "id": "server_i18n_api",
+  "version": "${version}",
+  "name": "Server I18n API",
+  "description": "I18n implementation on server side only.",
+  "authors": [
+    "IAFEnvoy"
+  ],
+  "contact": {
+    "sources": "https://github.com/CodeOfArdonia/ServerI18nAPI"
+  },
+  "license": "MIT",
+  "icon": "logo.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.iafenvoy.server.i18n.fabric.ServerI18nApiFabric"
+    ]
+  },
+  "mixins": [
+    "server_i18n_api.mixins.json"
+  ],
+  "depends": {
+    "minecraft": "~1.20.1"
+  }
+}
