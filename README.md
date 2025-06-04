@@ -10,6 +10,10 @@ Language detection is automatically so players don't need to do anything.
 
 You need to put language jsons in `data/<mod id>/lang/`, in vanilla assets pack format.
 
-The only API is `ServerI18n.translate`.
+The only API is `ServerI18n` class.
 
-For example: `Text.literal(ServerI18n.translate(player,"translation key"))`
+Examples:
+
+`Text.literal(ServerI18n.translate(player,"translation key","arg1","arg2"))`
+
+`ServerI18n.broadcast(server,"translation key","arg1","arg2")`
