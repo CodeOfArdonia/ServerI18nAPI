@@ -36,6 +36,6 @@ public final class ServerI18n {
 
     public static void broadcast(MinecraftServer server, String key, String... format) {
         for (ServerPlayerEntity player : server.getPlayerManager().getPlayerList())
-            player.sendMessage(Text.literal(translate(player, key, format)));
+            player.sendMessage(translateToLiteral(player, key, format));
     }
 }
