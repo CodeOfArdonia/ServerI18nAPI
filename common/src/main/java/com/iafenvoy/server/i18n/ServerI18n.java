@@ -14,6 +14,10 @@ public final class ServerI18n {
         return ServerI18nReloader.translate(language, key).formatted((Object[]) format);
     }
 
+    public static String translate(String key, String... format) {
+        return translate(ServerI18nReloader.DEFAULT_LANGUAGE, key, format);
+    }
+
     public static void broadcast(MinecraftServer server, String key, String... format) {
         for (ServerPlayerEntity player : server.getPlayerManager().getPlayerList())
             player.sendMessage(Text.literal(translate(player, key, format)));

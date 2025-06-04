@@ -13,6 +13,7 @@ import java.util.Map;
 
 public enum ServerI18nReloader implements SynchronousResourceReloader {
     INSTANCE;
+    public static final String DEFAULT_LANGUAGE = "en_us";
     private static final Map<String, Map<String, String>> DATA = new HashMap<>();
 
     @Override
@@ -34,7 +35,8 @@ public enum ServerI18nReloader implements SynchronousResourceReloader {
     }
 
     public static String translate(String language, String key) {
-        if (!DATA.containsKey(language)) return key;
-        return DATA.get(language).getOrDefault(key, key);
+        if (DATA.containsKey(language)) return DATA.get(language).getOrDefault(key, key);
+        if (DATA.containsKey(DEFAULT_LANGUAGE)) return DATA.get(DEFAULT_LANGUAGE).getOrDefault(key, key);
+        return key;
     }
 }
