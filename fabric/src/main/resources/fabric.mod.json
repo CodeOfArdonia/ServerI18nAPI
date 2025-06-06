@@ -3,7 +3,7 @@
   "id": "server_i18n_api",
   "version": "${version}",
   "name": "Server I18n API",
-  "description": "I18n implementation on server side only.",
+  "description": "Server side standalone i18n system, for server side only mods.",
   "authors": [
     "IAFEnvoy"
   ],

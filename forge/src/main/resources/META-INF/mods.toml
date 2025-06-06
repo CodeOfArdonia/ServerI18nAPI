@@ -9,7 +9,7 @@ version = "${version}"
 displayName = "Server I18n API"
 authors = "IAFEnvoy"
 description = '''
-I18n implementation on server side only.
+Server side standalone i18n system, for server side only mods.
 '''
 logoFile = "logo.png"
 
