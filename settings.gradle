@@ -11,4 +11,4 @@ rootProject.name = 'server_i18n_api'
 
 include 'common'
 include 'fabric'
-include 'forge'
+include 'neoforge'

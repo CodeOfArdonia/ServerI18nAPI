@@ -1,5 +1,5 @@
 modLoader = "javafml"
-loaderVersion = "[47,)"
+loaderVersion = "[2,)"
 issueTrackerURL = "https://github.com/CodeOfArdonia/ServerI18nAPI/issues"
 license = "MIT"
 
@@ -14,15 +14,18 @@ Server side standalone i18n system, for server side only mods.
 logoFile = "logo.png"
 
 [[dependencies.server_i18n_api]]
-modId = "forge"
-mandatory = true
-versionRange = "[47,)"
+modId = "neoforge"
+type = "required"
+versionRange = "[2,)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.server_i18n_api]]
 modId = "minecraft"
-mandatory = true
-versionRange = "[1.20.1,1.20.5)"
+type = "required"
+versionRange = "[1.20.4,1.20.5)"
 ordering = "NONE"
 side = "BOTH"
+
+[[mixins]]
+config="server_i18n_api.mixins.json"

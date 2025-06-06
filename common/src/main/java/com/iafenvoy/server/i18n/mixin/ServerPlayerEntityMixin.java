@@ -2,7 +2,7 @@ package com.iafenvoy.server.i18n.mixin;
 
 import com.iafenvoy.server.i18n.ServerI18nReloader;
 import com.iafenvoy.server.i18n.util.ServerPlayerEntityAccessor;
-import net.minecraft.network.packet.c2s.play.ClientSettingsC2SPacket;
+import net.minecraft.network.packet.c2s.common.SyncedClientOptions;
 import net.minecraft.server.network.ServerPlayerEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -15,9 +15,9 @@ public class ServerPlayerEntityMixin implements ServerPlayerEntityAccessor {
     @Unique
     private String server_i18n_api$language = ServerI18nReloader.DEFAULT_LANGUAGE;
 
-    @Inject(method = "setClientSettings", at = @At("HEAD"))
-    private void handleLanguage(ClientSettingsC2SPacket packet, CallbackInfo ci) {
-        this.server_i18n_api$language = packet.language();
+    @Inject(method = "setClientOptions", at = @At("HEAD"))
+    private void handleLanguage(SyncedClientOptions clientOptions, CallbackInfo ci) {
+        this.server_i18n_api$language = clientOptions.language();
     }
 
     @Override
