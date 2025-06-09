@@ -35,7 +35,10 @@ public enum ServerI18nReloader implements SynchronousResourceReloader {
     }
 
     public static String translate(String language, String key) {
-        if (DATA.containsKey(language)) return DATA.get(language).getOrDefault(key, key);
+        if (DATA.containsKey(language)) {
+            Map<String, String> map = DATA.get(language);
+            if (map.containsKey(key)) return DATA.get(language).get(key);
+        }
         if (DATA.containsKey(DEFAULT_LANGUAGE)) return DATA.get(DEFAULT_LANGUAGE).getOrDefault(key, key);
         return key;
     }
