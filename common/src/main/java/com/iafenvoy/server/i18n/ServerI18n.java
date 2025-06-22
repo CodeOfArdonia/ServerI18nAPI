@@ -34,8 +34,16 @@ public final class ServerI18n {
         return source.isExecutedByPlayer() ? translate(source.getPlayerOrThrow(), key, format) : translate(DEFAULT_LANGUAGE, key, format);
     }
 
+    public static void sendMessage(ServerCommandSource source, String key, String... format) throws CommandSyntaxException {
+        source.sendMessage(translateToLiteral(source, key, format));
+    }
+
+    public static void sendMessage(ServerPlayerEntity player, String key, String... format) {
+        player.sendMessage(translateToLiteral(player, key, format));
+    }
+
     public static void broadcast(MinecraftServer server, String key, String... format) {
         for (ServerPlayerEntity player : server.getPlayerManager().getPlayerList())
-            player.sendMessage(translateToLiteral(player, key, format));
+            sendMessage(player, key, format);
     }
 }

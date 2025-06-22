@@ -4,13 +4,10 @@ import com.iafenvoy.server.i18n.ServerI18nApi;
 import com.iafenvoy.server.i18n.ServerI18nReloader;
 import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
 import net.minecraft.resource.ResourceManager;
+import net.minecraft.resource.SynchronousResourceReloader;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.profiler.Profiler;
 
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Executor;
-
-public enum ServerI18nReloaderFabric implements IdentifiableResourceReloadListener {
+public enum ServerI18nReloaderFabric implements SynchronousResourceReloader, IdentifiableResourceReloadListener {
     INSTANCE;
 
     @Override
@@ -19,7 +16,7 @@ public enum ServerI18nReloaderFabric implements IdentifiableResourceReloadListen
     }
 
     @Override
-    public CompletableFuture<Void> reload(Synchronizer synchronizer, ResourceManager manager, Profiler prepareProfiler, Profiler applyProfiler, Executor prepareExecutor, Executor applyExecutor) {
-        return ServerI18nReloader.INSTANCE.reload(synchronizer, manager, prepareProfiler, applyProfiler, prepareExecutor, applyExecutor);
+    public void reload(ResourceManager manager) {
+        ServerI18nReloader.INSTANCE.reload(manager);
     }
 }
