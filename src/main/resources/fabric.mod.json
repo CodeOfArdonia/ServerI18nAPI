@@ -1,33 +1,28 @@
 {
   "schemaVersion": 1,
-  "id": "modtemplate",
-  "name": "Mod Template",
-  "version": "${version}",
-  "authors": ["A Mod Author"],
+  "id": "${mod_id}",
+  "name": "${mod_name}",
+  "version": "${mod_version}",
+  "authors": [
+    "${mod_authors}"
+  ],
   "contact": {
-    "sources": "",
-    "issues": ""
+    "sources": "${mod_repo_url}",
+    "issues": "${mod_repo_url}/issues"
   },
-  "description": "A Mod Description",
-  "icon": "assets/icon.png",
-  "license": "MIT",
+  "description": "${mod_description}",
+  "icon": "${mod_logo}",
+  "license": "${mod_license}",
   "environment": "*",
-  "accessWidener": "modtemplate.accesswidener",
   "entrypoints": {
     "main": [
-      "dev.spagurder.modtemplate.fabric.FabricEntrypoint"
-    ],
-    "client": [
-      "dev.spagurder.modtemplate.fabric.FabricClientEntrypoint"
-    ],
-    "fabric-datagen": [
-      "dev.spagurder.modtemplate.fabric.datagen.FabricDataGeneratorEntrypoint"
+      "com.iafenvoy.server.i18n._loader.fabric.ServerI18nApiFabric"
     ]
   },
   "mixins": [
-    "modtemplate.mixins.json"
+    "${mod_id}.mixins.json"
   ],
   "depends": {
-    "fabric-api": "*"
+    "minecraft": [${supported_minecraft_versions}]
   }
 }

@@ -1,12 +1,10 @@
-@file:Suppress("UnstableApiUsage")
-
 plugins {
-    id("fabric-loom")
+    id("net.neoforged.moddev.legacyforge")
     id("dev.kikugie.postprocess.jsonlang")
     id("me.modmuss50.mod-publish-plugin")
 }
 
-version = "${property("mod.version")}-${property("deps.minecraft")}-fabric"
+version = "${property("mod.version")}-${property("deps.minecraft")}-forge"
 base.archivesName = property("mod.id") as String
 
 jsonlang {
@@ -15,40 +13,66 @@ jsonlang {
 }
 
 repositories {
-    mavenLocal()
     maven("https://maven.parchmentmc.org") { name = "ParchmentMC" }
 }
 
 dependencies {
-    minecraft("com.mojang:minecraft:${property("deps.minecraft")}")
-    mappings(loom.layered {
-        officialMojangMappings()
-        if (hasProperty("deps.parchment"))
-            parchment("org.parchmentmc.data:parchment-${property("deps.parchment")}@zip")
-    })
-    modImplementation("net.fabricmc:fabric-loader:${property("deps.fabric-loader")}")
-
-    modImplementation("net.fabricmc.fabric-api:fabric-api:${property("deps.fabric-api")}")
+    annotationProcessor("org.spongepowered:mixin:0.8.5:processor")
 }
 
-fabricApi {
-    configureDataGeneration() {
-        outputDirectory = file("$rootDir/src/main/generated")
-        client = true
+legacyForge {
+    version = property("deps.minecraft") as String + "-" + property("deps.forge") as String
+    validateAccessTransformers = true
+
+    if (hasProperty("deps.parchment")) parchment {
+        val (mc, ver) = (property("deps.parchment") as String).split(':')
+        mappingsVersion = ver
+        minecraftVersion = mc
     }
+
+    runs {
+        register("client") {
+            gameDirectory = file("run/")
+            client()
+        }
+        register("server") {
+            gameDirectory = file("run/")
+            server()
+        }
+    }
+
+    mods {
+        register(property("mod.id") as String) {
+            sourceSet(sourceSets["main"])
+        }
+    }
+    sourceSets["main"].resources.srcDir("src/main/generated")
+}
+
+mixin {
+    add(sourceSets.main.get(), "${property("mod.id")}-refmap.json")
+    config("${property("mod.id")}.mixins.json")
 }
 
 tasks {
     processResources {
-        exclude("**/neoforge.mods.toml", "**/mods.toml", "**/pack.mcmeta")
+        exclude("**/fabric.mod.json", "**/neoforge.mods.toml", "**/*.accesswidener")
+    }
+
+    named("createMinecraftArtifacts") {
         dependsOn("stonecutterGenerate")
     }
 
     register<Copy>("buildAndCollect") {
         group = "build"
-        from(remapJar.map { it.archiveFile })
+        from(jar.map { it.archiveFile })
         into(rootProject.layout.buildDirectory.file("libs/${project.property("mod.version")}"))
         dependsOn("build")
+    }
+
+    jar {
+        manifest.attributes["MixinConfigs"] = "${project.property("mod.id")}.mixins.json"
+        finalizedBy("reobfJar")
     }
 }
 
@@ -65,10 +89,10 @@ java {
 val supportedMinecraftVersions: List<String> = com.google.common.collect.ImmutableList.builder<String>()
     .addAll(
         (property("publish.additionalVersions") as String?)
-            ?.split(",")
-            ?.map { it.trim() }
-            ?.filter { it.isNotEmpty() }
-            ?: emptyList())
+        ?.split(",")
+        ?.map { it.trim() }
+        ?.filter { it.isNotEmpty() }
+        ?: emptyList())
     .add(stonecutter.current.version)
     .build()
 
@@ -82,7 +106,7 @@ tasks.named<ProcessResources>("processResources") {
         this["mod_repo_url"] = project.property("mod.repo_url") as String
         this["mod_license"] = project.property("mod.license") as String
         this["mod_logo"] = project.property("mod.logo") as String
-        this["supported_minecraft_versions"] = supportedMinecraftVersions.joinToString(",") { x -> "\"${x}\"" }
+        this["supported_minecraft_versions"] = supportedMinecraftVersions.joinToString(",") { x -> "[${x}]" }
     }
 
     filesMatching(listOf("fabric.mod.json", "META-INF/neoforge.mods.toml", "META-INF/mods.toml")) {
@@ -91,18 +115,18 @@ tasks.named<ProcessResources>("processResources") {
 }
 
 publishMods {
-    file = tasks.remapJar.map { it.archiveFile.get() }
-    additionalFiles.from(tasks.remapSourcesJar.map { it.archiveFile.get() })
+    file = tasks.named<org.gradle.jvm.tasks.Jar>("reobfJar").map { it.archiveFile.get() }
+    additionalFiles.from(tasks.named<org.gradle.jvm.tasks.Jar>("sourcesJar").map { it.archiveFile.get() })
 
     val modVersion = property("mod.version") as String
     type = if (modVersion.contains("alpha")) ALPHA
     else if (modVersion.contains("beta")) BETA
     else STABLE
 
-    displayName = "${property("mod.name")} $modVersion for ${stonecutter.current.version} Fabric"
-    version = "${modVersion}-${property("deps.minecraft")}-fabric"
+    displayName = "${property("mod.name")} $modVersion for ${stonecutter.current.version} Forge"
+    version = "${modVersion}-${property("deps.minecraft")}-forge"
     changelog = provider { rootProject.file("CHANGELOG.md").readText() }
-    modLoaders.add("fabric")
+    modLoaders.add("forge")
 
     modrinth {
         projectId = property("publish.modrinth") as String
