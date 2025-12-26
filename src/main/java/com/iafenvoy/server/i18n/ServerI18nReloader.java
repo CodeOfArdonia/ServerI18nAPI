@@ -13,7 +13,7 @@ import java.util.Map;
 
 public enum ServerI18nReloader implements ResourceManagerReloadListener {
     INSTANCE;
-    public static final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath(ServerI18nApi.MOD_ID, ServerI18nApi.MOD_ID);
+    public static final ResourceLocation ID = /*? >=1.21 {*/ResourceLocation.fromNamespaceAndPath/*?} else {*//*new ResourceLocation*//*?}*/(ServerI18nApi.MOD_ID, ServerI18nApi.MOD_ID);
     public static final String DEFAULT_LANGUAGE = "en_us";
     private static final Map<String, Map<String, String>> DATA = new HashMap<>();
 
