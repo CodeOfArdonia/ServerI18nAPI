@@ -1,14 +1,11 @@
 package com.iafenvoy.server.i18n._loader.neoforge;
 
 //? neoforge {
-
 import com.iafenvoy.server.i18n.ServerI18nApi;
 import com.iafenvoy.server.i18n.ServerI18nReloader;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.Mod;
-//? >=1.20.5 {
 import net.neoforged.fml.common.EventBusSubscriber;
-//?}
+import net.neoforged.fml.common.Mod;
 //? >=1.21.4 {
 /*import net.neoforged.neoforge.event.AddServerReloadListenersEvent;
 *///?} else {
@@ -20,8 +17,6 @@ import net.neoforged.neoforge.event.AddReloadListenerEvent;
 @EventBusSubscriber
 //?} elif >=1.20.5 {
 /*@EventBusSubscriber(bus = EventBusSubscriber.Bus.GAME)
- *///?} else {
-/*@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE)
  *///?}
 public final class ServerI18nApiNeoForge {
     public ServerI18nApiNeoForge() {
