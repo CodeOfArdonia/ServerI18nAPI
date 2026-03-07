@@ -10,5 +10,6 @@
   ],
   "injectors": {
     "defaultRequire": 1
-  }
+  },
+  "refmap": "server_i18n_api-refmap.json"
 }
