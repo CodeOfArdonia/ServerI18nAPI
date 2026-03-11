@@ -2,15 +2,20 @@ package com.iafenvoy.server.i18n;
 
 import com.iafenvoy.server.i18n.util.ServerPlayerEntityAccessor;
 import com.iafenvoy.server.i18n.util.TextUtil;
-import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 
-import static com.iafenvoy.server.i18n.ServerI18nReloader.DEFAULT_LANGUAGE;
+import java.util.List;
 
 public final class ServerI18n {
+    public static final String DEFAULT_LANGUAGE = ServerI18nReloader.DEFAULT_LANGUAGE;
+
+    public static Component translateToLiteralDefault(String key, String... format) {
+        return translateToLiteral(DEFAULT_LANGUAGE, key, format);
+    }
+
     public static Component translateToLiteral(ServerPlayer player, String key, String... format) {
         return translateToLiteral(((ServerPlayerEntityAccessor) player).server_i18n_api$getLanguage(), key, format);
     }
@@ -21,6 +26,10 @@ public final class ServerI18n {
 
     public static Component translateToLiteral(CommandSourceStack stack, String key, String... format) {
         return stack.isPlayer() ? translateToLiteral(stack.getPlayer(), key, format) : translateToLiteral(DEFAULT_LANGUAGE, key, format);
+    }
+
+    public static String translateDefault(String key, String... format) {
+        return translate(DEFAULT_LANGUAGE, key, format);
     }
 
     public static String translate(ServerPlayer player, String key, String... format) {
@@ -43,8 +52,12 @@ public final class ServerI18n {
         player.sendSystemMessage(translateToLiteral(player, key, format));
     }
 
-    public static void broadcast(MinecraftServer server, String key, String... format) {
-        for (ServerPlayer player : server.getPlayerList().getPlayers())
+    public static void broadcast(List<ServerPlayer> players, String key, String... format) {
+        for (ServerPlayer player : players)
             sendMessage(player, key, format);
+    }
+
+    public static void broadcast(MinecraftServer server, String key, String... format) {
+        broadcast(server.getPlayerList().getPlayers(), key, format);
     }
 }
