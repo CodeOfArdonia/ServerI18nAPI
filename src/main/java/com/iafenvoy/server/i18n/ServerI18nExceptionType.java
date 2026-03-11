@@ -11,7 +11,7 @@ public class ServerI18nExceptionType implements CommandExceptionType {
         this.key = key;
     }
 
-    public CommandSyntaxException create(CommandSourceStack source, String... format) throws CommandSyntaxException {
+    public CommandSyntaxException create(CommandSourceStack source, String... format) {
         return new CommandSyntaxException(this, ServerI18n.translateToLiteral(source, this.key, format));
     }
 }

@@ -7,10 +7,10 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 //? >=1.21.4 {
-/*import net.neoforged.neoforge.event.AddServerReloadListenersEvent;
-*///?} else {
-import net.neoforged.neoforge.event.AddReloadListenerEvent;
-//?}
+import net.neoforged.neoforge.event.AddServerReloadListenersEvent;
+//?} else {
+/*import net.neoforged.neoforge.event.AddReloadListenerEvent;
+*///?}
 
 @Mod(ServerI18nApi.MOD_ID)
 //? >=1.21 {
@@ -23,7 +23,7 @@ public final class ServerI18nApiNeoForge {
     }
 
     @SubscribeEvent
-    public static void registerServerListener(/*? >=1.21.4 {*//*AddServerReloadListenersEvent*//*?} else {*/AddReloadListenerEvent/*?}*/ event) {
-        event.addListener( /*? >=1.21.4 {*//*ServerI18nReloader.ID,*//*?}*/ServerI18nReloader.INSTANCE);
+    public static void registerServerListener(/*? >=1.21.4 {*/AddServerReloadListenersEvent/*?} else {*//*AddReloadListenerEvent*//*?}*/ event) {
+        event.addListener( /*? >=1.21.4 {*/ServerI18nReloader.ID,/*?}*/ServerI18nReloader.INSTANCE);
     }
 }
