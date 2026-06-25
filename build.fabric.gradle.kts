@@ -62,6 +62,12 @@ java {
     targetCompatibility = javaCompat
 }
 
+stonecutter {
+    replacements.string(eval(current.version, ">=1.21.11")) {
+        replace("ResourceLocation", "Identifier")
+    }
+}
+
 val supportedMinecraftVersions: List<String> = com.google.common.collect.ImmutableList.builder<String>()
     .addAll(
         (property("publish.additionalVersions") as String?)
