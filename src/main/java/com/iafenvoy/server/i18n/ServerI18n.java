@@ -1,7 +1,6 @@
 package com.iafenvoy.server.i18n;
 
 import com.iafenvoy.server.i18n.util.ServerPlayerEntityAccessor;
-import com.iafenvoy.server.i18n.util.TextUtil;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
@@ -21,7 +20,7 @@ public final class ServerI18n {
     }
 
     public static Component translateToLiteral(String language, String key, String... format) {
-        return TextUtil.literal(translate(language, key, format));
+        return Component.literal(translate(language, key, format));
     }
 
     public static Component translateToLiteral(CommandSourceStack stack, String key, String... format) {

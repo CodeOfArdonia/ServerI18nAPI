@@ -21,7 +21,7 @@ side = "BOTH"
 [[dependencies.${mod_id}]]
 modId = "minecraft"
 type = "required"
-versionRange = "${supported_minecraft_versions}"
+versionRange = "${minecraft_version_range_neoforge}"
 
 [[mixins]]
 config = "${mod_id}.mixins.json"

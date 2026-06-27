@@ -3,7 +3,7 @@ package com.iafenvoy.server.i18n;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
@@ -15,14 +15,14 @@ import java.util.Map;
 
 public enum ServerI18nReloader implements ResourceManagerReloadListener {
     INSTANCE;
-    public static final ResourceLocation ID = /*? >=1.21 {*/ResourceLocation.fromNamespaceAndPath/*?} else {*//*new ResourceLocation*//*?}*/(ServerI18nApi.MOD_ID, ServerI18nApi.MOD_ID);
+    public static final Identifier ID = Identifier.fromNamespaceAndPath(ServerI18nApi.MOD_ID, ServerI18nApi.MOD_ID);
     public static final String DEFAULT_LANGUAGE = "en_us";
     private static volatile Map<String, Map<String, String>> DATA = Collections.emptyMap();
 
     @Override
     public void onResourceManagerReload(ResourceManager manager) {
         final Map<String, Map<String, String>> pendingData = new HashMap<>();
-        for (Map.Entry<ResourceLocation, Resource> entry : manager.listResources("lang", p -> p.getPath().endsWith(".json")).entrySet()) {
+        for (Map.Entry<Identifier, Resource> entry : manager.listResources("lang", p -> p.getPath().endsWith(".json")).entrySet()) {
             String language = removeSurrounding(entry.getKey().getPath());
 
             Map<String, String> map = pendingData.computeIfAbsent(language, k -> new HashMap<>());

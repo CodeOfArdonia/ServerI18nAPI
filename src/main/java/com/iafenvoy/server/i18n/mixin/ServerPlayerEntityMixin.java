@@ -8,11 +8,7 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-//? >=1.20.2 {
 import net.minecraft.server.level.ClientInformation;
- //?} else {
-/*import net.minecraft.network.protocol.game.ServerboundClientInformationPacket;
-*///?}
 
 @Mixin(ServerPlayer.class)
 public class ServerPlayerEntityMixin implements ServerPlayerEntityAccessor {
@@ -20,8 +16,8 @@ public class ServerPlayerEntityMixin implements ServerPlayerEntityAccessor {
     private String server_i18n_api$language = ServerI18nReloader.DEFAULT_LANGUAGE;
 
     @Inject(method = "updateOptions", at = @At("HEAD"))
-    private void handleLanguage(/*? >=1.20.2 {*/ClientInformation/*?} else {*//*ServerboundClientInformationPacket*//*?}*/ clientOptions, CallbackInfo ci) {
-        this.server_i18n_api$language = clientOptions.language();
+    private void handleLanguage(ClientInformation information, CallbackInfo ci) {
+        this.server_i18n_api$language = information.language();
     }
 
     @Override
